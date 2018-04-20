@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as moment from 'moment';
 import { pick } from 'lodash';
-// import { AuthData } from '../models/auth-data.model';
+import { AuthData } from '../auth/model/auth-data.model';
 import { environment } from '../../environments/environment';
 
 import 'rxjs/add/operator/switchMap';
@@ -26,10 +26,12 @@ export class ApiService {
     if (!this._sessionUser) {
       this._sessionUser = JSON.parse(localStorage.getItem('angular_chat_auth_user'));
     }
-
+    
     if (this._sessionAuthData && this._sessionUser) {
       this._isAuthorized = true;
     }
+    console.log(localStorage.getItem('angular_chat_auth_user'))
+    console.log(localStorage.getItem('angular_chat_auth_data'))
 
     return this._isAuthorized;
   }
@@ -95,17 +97,17 @@ export class ApiService {
   private _setUserData(user: any) {
     this._sessionUser = user;
     sessionStorage.setItem('angular_chat_auth_user', JSON.stringify(user));
-    if (this._rememberMe) {
+    // if (this._rememberMe) {
       localStorage.setItem('angular_chat_auth_user', JSON.stringify(user));
-    }
+    // }
   }
 
   private _setAuthData(data: any) {
     this._sessionAuthData = data;
     sessionStorage.setItem('angular_chat_auth_data', JSON.stringify(data));
-    if (this._rememberMe) {
+    // if (this._rememberMe) {
       localStorage.setItem('angular_chat_auth_data', JSON.stringify(data));
-    }
+    // }
   }
 
   private _httpOptions(isAuth) {
